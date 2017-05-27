@@ -1,4 +1,5 @@
-# Redux Tree View Example
+# React Redux Tree View Example
+It will render the tree structure and lets you search the nodes.
 
 This project template was built with [Create React App](https://github.com/facebookincubator/create-react-app).
 
