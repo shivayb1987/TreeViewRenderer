@@ -17,3 +17,7 @@ export const filterView = filter => ({
 	filterText: filter
 })
 
+export const showHideNode = nodeName => ({
+	type: types.TOGGLE_NODE,
+	nodeName
+})

@@ -1,4 +1,4 @@
-import { RECEIVE_TREE, FILTER_VIEW } from '../constants/ActionTypes';
+import { RECEIVE_TREE, FILTER_VIEW, TOGGLE_NODE } from '../constants/ActionTypes';
 
 const filter = (root, str) => {
 	function setFlag ({ node }) {
@@ -21,6 +21,31 @@ const filter2 = ({ node }, str) => {
 	return node.children.map(child => filter(child, str));
 }
 
+const markNodesHidden = nodes => {
+	nodes.forEach(({ node }) => {
+		node["hide"] = !node["hide"];
+		// node["highlight"] = !node["highlight"];
+	});
+}
+
+const findSubtree = ({ node }, nodeName) => {
+	if (node.description === nodeName) {
+		// node["highlight"] = true;
+		markNodesHidden(node.children);
+		return;
+	}
+	node["highlight"] = false;
+	for (let i=0; i<node.children.length; i++) {
+		let child = node.children[i];
+		let { node: {description } } = child;
+		if (description === nodeName) {
+			markNodesHidden(child.node.children);
+			return;
+		}
+		findSubtree(child, nodeName);
+	}
+};
+
 const tree = (state = [], action) => {
 	switch (action.type) {
 		case RECEIVE_TREE:
@@ -34,6 +59,11 @@ const tree = (state = [], action) => {
 			let root = { "node": { id: "0", description: "root", children: stateCopy }};
 			filter(root, filterText);
 			return stateCopy;
+		case TOGGLE_NODE:
+			let { nodeName } = action;
+			let newState = state.slice();
+			newState.forEach(node => findSubtree(node, nodeName));
+			return newState;
 		default:
 			return state;
 	}
