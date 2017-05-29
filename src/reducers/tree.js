@@ -118,4 +118,14 @@ export const getFilteredNodes = state => {
 	return nodes;
 }
 
+export const isExpanded = state => {
+	for (let i=0; i<state.children.length; i++) {
+		let { node } = state.children[i];
+		if (node["hide"]) {
+			return false;
+		}
+	}
+	return true;
+}
+
 export default tree;

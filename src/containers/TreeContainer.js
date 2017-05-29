@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Tree from '../components/Tree';
-import { getFilteredNodes } from '../reducers/tree';
+import { getFilteredNodes, isExpanded } from '../reducers/tree';
 import { showHideNode, expandAll, collapseAll } from '../actions';
 
-const TreeContainer = ({ root = [], showHideNode, expandAll, collapseAll }) => (
+const TreeContainer = ({ root = [], showHideNode, expandAll, collapseAll, isExpanded }) => (
 	<Tree
 		root={root}
 		onClick={showHideNode}
 		expandAll={expandAll}
-		collapseAll={collapseAll} />
+		collapseAll={collapseAll}
+		isExpanded={isExpanded} />
 )
 
 const mapStateToProps = state => ({
@@ -28,7 +29,8 @@ const mapDispatchToProps = dispatch => ({
 	collapseAll: evt => {
 		evt.stopPropagation();
 		dispatch(collapseAll());
-	}
+	},
+	isExpanded: node => isExpanded(node)
 })
 
 export default connect(
