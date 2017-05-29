@@ -5,7 +5,8 @@ function renderTree (node, nodeIndex, onClick) {
 	let { id, description, children = [], hide = false, highlight = false } = node;
 	let hasChildren = children.length > 0;
 	return (
-		<ul style={{ "display": hide ? "none": "block", "cursor": children.length ? "pointer": "default" }} key={`node-${nodeIndex}-${id}`} 
+		<ul style={{ "display": hide ? "none": "block",
+			"cursor": children.length ? "pointer": "default" }} key={`node-${nodeIndex}-${id}`} 
 			onClick={onClick}>
 			<li key={`node-${nodeIndex}-${id}`}>
 				<div style={{"color": "cornflowerblue", "fontWeight": "500"}}>{ description }</div>
@@ -19,8 +20,16 @@ function renderTree (node, nodeIndex, onClick) {
 	);
 }
 
-const Tree = ({ root, onClick }) => (
+const Tree = ({ root, onClick, expandAll, collapseAll }) => (
 	<div>
+		<div style={{"margin": "10px 0 0 0",
+			"fontSize": "11px",
+			"fontStyle": "italic",
+			"color": "cornflowerblue",
+			"cursor": "pointer"}}>
+			<span onClick={expandAll}>Expand All</span>&nbsp; &nbsp;&nbsp; &nbsp;
+			<span onClick={collapseAll}>Collapse All</span>
+		</div>
 		{ root.map(({ node } , i) => renderTree(node, i, onClick)) }
 	</div>
 )

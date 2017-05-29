@@ -21,3 +21,11 @@ export const showHideNode = nodeName => ({
 	type: types.TOGGLE_NODE,
 	nodeName
 })
+
+export const expandAll = () => ({
+	type: types.EXPAND_ALL
+})
+
+export const collapseAll = () => ({
+	type: types.COLLAPSE_ALL
+})

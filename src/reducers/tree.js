@@ -1,4 +1,8 @@
-import { RECEIVE_TREE, FILTER_VIEW, TOGGLE_NODE } from '../constants/ActionTypes';
+import { RECEIVE_TREE, 
+	FILTER_VIEW, 
+	TOGGLE_NODE, 
+	EXPAND_ALL, 
+	COLLAPSE_ALL } from '../constants/ActionTypes';
 
 const filter = (root, str) => {
 	function setFlag ({ node }) {
@@ -24,13 +28,18 @@ const filter2 = ({ node }, str) => {
 const markNodesHidden = nodes => {
 	nodes.forEach(({ node }) => {
 		node["hide"] = !node["hide"];
-		// node["highlight"] = !node["highlight"];
+	});
+}
+
+const markShown = (nodes = [], flag) => {
+	nodes.forEach(({ node }) => {
+		node["hide"] = flag;
+		node.children.forEach((child) => markShown([child], flag))
 	});
 }
 
 const findSubtree = ({ node }, nodeName) => {
 	if (node.description === nodeName) {
-		// node["highlight"] = true;
 		markNodesHidden(node.children);
 		return;
 	}
@@ -64,6 +73,14 @@ const tree = (state = [], action) => {
 			let newState = state.slice();
 			newState.forEach(node => findSubtree(node, nodeName));
 			return newState;
+		case EXPAND_ALL:
+			let expandState = state.slice();
+			expandState.forEach(({node }) => markShown(node.children, false));
+			return expandState;
+		case COLLAPSE_ALL:
+			let collapseState = state.slice();
+			collapseState.forEach(({node }) => markShown(node.children, true));
+			return collapseState;
 		default:
 			return state;
 	}
