@@ -13,8 +13,8 @@
 									"description": "test1_1_1",
 									"children": [{
 										"node": {
-											"id": "1_1_1",
-											"description": "test1_1_1",
+											"id": "1_1_1_1",
+											"description": "test1_1_1_1",
 											"children": [{
 													"node": {
 														"id": "1_1_1_1",
