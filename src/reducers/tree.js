@@ -14,7 +14,8 @@ const filter = (root, str) => {
 }
 
 const callback = (node, str) => {
-	if (node.description.match(str)) {
+	let regEx = new RegExp(str, 'gi');
+	if (node.description.match(regEx)) {
 		node["shown"] = true;
 	} else {
 		node["shown"] = false;
